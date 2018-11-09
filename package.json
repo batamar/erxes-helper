@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development nodemon -e ts index --exec ts-node"
+    "dev": "NODE_ENV=development nodemon -e ts src --exec ts-node",
+    "build": "tsc -p tsconfig.prod.json"
   },
   "dependencies": {
     "cors": "^2.8.3",
