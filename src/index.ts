@@ -5,19 +5,25 @@ import * as express from "express";
 
 dotenv.config();
 
+const { PORT, MAIN_APP_DOMAIN, MAPPING } = process.env;
+
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors({
+  origin: MAIN_APP_DOMAIN,
+}));
 
-const { PORT, MAPPING } = process.env;
+app.post('/get-env', (req, res) => {
+  const mapping = JSON.parse(MAPPING);
 
-app.get('/get-env', (req, res) => {
-  const host = req.query.host;
+  if (!mapping[req.hostname]) {
+    return res.json({ status: 'invalid config' });
+  }
 
-  res.json(JSON.parse(MAPPING)[host])
+  res.json(mapping[req.hostname])
 });
 
 app.listen(PORT, () => {
