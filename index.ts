@@ -12,23 +12,12 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-const MAPPING = {
-  'localhost': {
-    REACT_APP_CDN_HOST: 'http://localhost:3200',
-    REACT_APP_API_URL: 'http://localhost:3300',
-    REACT_APP_API_SUBSCRIPTION_URL: 'ws://localhost:3300/subscriptions'
-  },
-  '127.0.0.1': {
-    REACT_APP_CDN_HOST: 'http://localhost:5200',
-    REACT_APP_API_URL: 'http://localhost:3300',
-    REACT_APP_API_SUBSCRIPTION_URL: 'ws://localhost:3300/subscriptions'
-  },
-}
-
 app.get('/get-env', (req, res) => {
   const host = req.query.host;
 
-  res.json(MAPPING[host])
+  const { MAPPING } = process.env;
+
+  res.json(JSON.parse(MAPPING)[host])
 });
 
 app.listen('5000', () => {
