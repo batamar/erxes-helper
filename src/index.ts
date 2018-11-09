@@ -12,14 +12,14 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+const { PORT, MAPPING } = process.env;
+
 app.get('/get-env', (req, res) => {
   const host = req.query.host;
-
-  const { MAPPING } = process.env;
 
   res.json(JSON.parse(MAPPING)[host])
 });
 
-app.listen('5000', () => {
-  console.log(`Helper is now running on port 5000`);
+app.listen(PORT, () => {
+  console.log(`Helper is now running on port ${PORT}`);
 });
